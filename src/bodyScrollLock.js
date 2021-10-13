@@ -38,6 +38,7 @@ let documentListenerAdded: boolean = false;
 let initialClientY: number = -1;
 let previousBodyOverflowSetting;
 let previousBodyPosition;
+let previousHtmlPosition;
 let previousBodyPaddingRight;
 
 // returns true if `el` should be allowed to receive touchmove events.
@@ -109,30 +110,25 @@ const restoreOverflowSetting = () => {
 
 const setPositionFixed = () => window.requestAnimationFrame(() => {
   // If previousBodyPosition is already set, don't set it again.
-  if (previousBodyPosition === undefined) {
+  if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
+    previousHtmlPosition = {
+      position: document.documentElement.style.position,
+      height: document.documentElement.style.height,
+    }
+
     previousBodyPosition = {
       position: document.body.style.position,
       top: document.body.style.top,
       left: document.body.style.left
     };
 
-    const currentHeight = document.documentElement.clientHeight;
-
     // Update the dom inside an animation frame
     const { scrollY, scrollX } = window;
-    document.body.style.position = 'fixed';
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.height = `${window.innerHeight}px`;
+    document.body.style.position = 'relative';
     document.body.style.top = `${-scrollY}px`;
     document.body.style.left = `${-scrollX}px`;
-
-    setTimeout(() => window.requestAnimationFrame(() => {
-      // Attempt to check if the bottom bar appeared due to the position change
-      const newHeight = document.documentElement.clientHeight;
-      const bottomBarHeight = currentHeight - newHeight;
-      if (bottomBarHeight && scrollY >= currentHeight) {
-        // Move the content further up so that the bottom bar doesn't hide it
-        document.body.style.top = -(scrollY + bottomBarHeight);
-      }
-    }), 300)
   }
 });
 
@@ -143,6 +139,8 @@ const restorePositionSetting = () => {
     const x = -parseInt(document.body.style.left, 10);
 
     // Restore styles
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.height = window.innerHeight;
     document.body.style.position = previousBodyPosition.position;
     document.body.style.top = previousBodyPosition.top;
     document.body.style.left = previousBodyPosition.left;
@@ -150,6 +148,7 @@ const restorePositionSetting = () => {
     // Restore scroll
     window.scrollTo(x, y);
 
+    previousHtmlPosition = undefined;
     previousBodyPosition = undefined;
   }
 };
