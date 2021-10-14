@@ -109,48 +109,47 @@ const restoreOverflowSetting = () => {
 };
 
 const setPositionFixed = () => window.requestAnimationFrame(() => {
-  // If previousBodyPosition is already set, don't set it again.
-  if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
-    previousHtmlPosition = {
-      position: document.documentElement.style.position,
-      height: document.documentElement.style.height,
-    }
+  // if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
+  //   previousHtmlPosition = {
+  //     position: document.documentElement.style.position,
+  //     height: document.documentElement.style.height,
+  //   }
 
-    previousBodyPosition = {
-      position: document.body.style.position,
-      top: document.body.style.top,
-      left: document.body.style.left
-    };
+  //   previousBodyPosition = {
+  //     position: document.body.style.position,
+  //     top: document.body.style.top,
+  //     left: document.body.style.left
+  //   };
 
-    // Update the dom inside an animation frame
-    const { scrollY, scrollX } = window;
-    document.documentElement.style.position = 'fixed';
-    document.documentElement.style.height = `${window.innerHeight}px`;
-    document.body.style.position = 'relative';
-    document.body.style.top = `${-scrollY}px`;
-    document.body.style.left = `${-scrollX}px`;
-  }
+  //   // Update the dom inside an animation frame
+  //   const { scrollY, scrollX } = window;
+  //   document.documentElement.style.position = 'fixed';
+  //   document.documentElement.style.height = `${window.innerHeight}px`;
+  //   document.body.style.position = 'relative';
+  //   document.body.style.top = `${-scrollY}px`;
+  //   document.body.style.left = `${-scrollX}px`;
+  // }
 });
 
 const restorePositionSetting = () => {
-  if (previousBodyPosition !== undefined) {
-    // Convert the position from "px" to Int
-    const y = -parseInt(document.body.style.top, 10);
-    const x = -parseInt(document.body.style.left, 10);
+  // if (previousBodyPosition !== undefined) {
+  //   // Convert the position from "px" to Int
+  //   const y = -parseInt(document.body.style.top, 10);
+  //   const x = -parseInt(document.body.style.left, 10);
 
-    // Restore styles
-    document.documentElement.style.position = 'fixed';
-    document.documentElement.style.height = window.innerHeight;
-    document.body.style.position = previousBodyPosition.position;
-    document.body.style.top = previousBodyPosition.top;
-    document.body.style.left = previousBodyPosition.left;
+  //   // Restore styles
+  //   document.documentElement.style.position = 'fixed';
+  //   document.documentElement.style.height = window.innerHeight;
+  //   document.body.style.position = previousBodyPosition.position;
+  //   document.body.style.top = previousBodyPosition.top;
+  //   document.body.style.left = previousBodyPosition.left;
 
-    // Restore scroll
-    window.scrollTo(x, y);
+  //   // Restore scroll
+  //   window.scrollTo(x, y);
 
-    previousHtmlPosition = undefined;
-    previousBodyPosition = undefined;
-  }
+  //   previousHtmlPosition = undefined;
+  //   previousBodyPosition = undefined;
+  // }
 };
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions

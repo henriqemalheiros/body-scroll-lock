@@ -8,7 +8,7 @@ const scrollTargetElement = document.querySelector('.scrollTarget');
 
 window.onload = function () {
   const versionEl = document.getElementById('version');
-  versionEl.innerText = `v${process.env.VERCEL_GIT_COMMIT_SHA || 'DEV'}`
+  versionEl.innerText = 'v1'
 }
 
 disableBodyScrollButton.onclick = function() {
