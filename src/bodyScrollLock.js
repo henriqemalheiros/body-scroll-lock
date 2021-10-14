@@ -122,11 +122,12 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     syncWindowHeight();
     
     previousHtmlPosition = {
+      backgroundColor: document.documentElement.style.backgroundColor,
       position: document.documentElement.style.position,
       height: document.documentElement.style.height,
       boxSizing: document.documentElement.style.boxSizing,
     }
-    
+
     document.documentElement.style.backgroundColor = 'red';
     document.documentElement.style.position = 'fixed';
     document.documentElement.style.height = 'calc(var(--window-inner-height) - 1px)';
@@ -150,7 +151,7 @@ const restorePositionSetting = () => {
   if (previousBodyPosition !== undefined) {
     window.removeEventListener('resize', syncWindowHeight);
 
-    document.documentElement.style.backgroundColor = undefined;
+    document.documentElement.style.backgroundColor = previousHtmlPosition.backgroundColor;
     document.documentElement.style.position = previousHtmlPosition.position;
     document.documentElement.style.height = previousHtmlPosition.height;
     document.documentElement.style.boxSizing = previousHtmlPosition.boxSizing;
