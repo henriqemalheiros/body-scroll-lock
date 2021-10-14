@@ -117,7 +117,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     }
 
     document.documentElement.style.position = 'fixed';
-    document.documentElement.style.height = `${window.innerHeight}px`;
+    document.documentElement.style.height = `${window.innerHeight - 1}px`;
     document.documentElement.style.boxSizing = 'border-box';
 
     previousBodyPosition = {
@@ -129,7 +129,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     };
 
     document.body.style.position = 'fixed';
-    document.body.style.height = `${window.innerHeight}px`;
+    document.body.style.height = `${window.innerHeight - 1}px`;
     document.body.style.boxSizing = 'border-box';
   }
 });
