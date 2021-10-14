@@ -118,6 +118,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
 
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
+    document.documentElement.style.setProperty('box-sizing', 'border-box');
 
     document.body.style.setProperty('position', 'fixed');
     document.body.style.setProperty('top', '0');
@@ -135,6 +136,7 @@ const restorePositionSetting = () => {
   if (hasPositionFixed) {
     document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('height');
+    document.documentElement.style.removeProperty('box-sizing');
 
     document.body.style.removeProperty('position');
     document.body.style.removeProperty('top');
