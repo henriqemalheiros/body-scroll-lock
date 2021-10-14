@@ -136,7 +136,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
 
 const restorePositionSetting = () => {
   if (hasPositionFixed) {
-    const { scrollY } = document.body;
+    const { scrollTop } = document.body;
 
     document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('height');
@@ -149,7 +149,7 @@ const restorePositionSetting = () => {
     document.body.style.removeProperty('overflow-x');
     document.body.style.removeProperty('overflow-y');
 
-    window.scrollTo(0, scrollY);
+    window.scrollTo(0, scrollTop);
     
     hasPositionFixed = false;
   }
