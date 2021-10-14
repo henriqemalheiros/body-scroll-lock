@@ -122,28 +122,26 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     syncWindowHeight();
     
     previousHtmlPosition = {
-      backgroundColor: document.documentElement.style.backgroundColor,
-      position: document.documentElement.style.position,
-      height: document.documentElement.style.height,
       boxSizing: document.documentElement.style.boxSizing,
+      height: document.documentElement.style.height,
+      overflow: document.documentElement.style.overflow,
     }
 
-    document.documentElement.style.backgroundColor = 'red';
-    document.documentElement.style.position = 'fixed';
-    document.documentElement.style.height = 'calc(var(--window-inner-height) - 1px)';
     document.documentElement.style.boxSizing = 'border-box';
+    document.documentElement.style.height = 'calc(var(--window-inner-height) - 1px)';
+    document.documentElement.style.overflow = 'hidden';
 
     previousBodyPosition = {
-      position: document.body.style.position,
-      height: document.body.style.height,
       boxSizing: document.body.style.boxSizing,
+      height: document.body.style.height,
+      overflow: document.body.style.overflow,
       x: window.scrollX,
       y: window.scrollY,
     };
 
-    document.body.style.position = 'fixed';
-    document.body.style.height = 'calc(var(--window-inner-height) - 1px)';
     document.body.style.boxSizing = 'border-box';
+    document.body.style.height = 'calc(var(--window-inner-height) - 1px)';
+    document.body.style.overflow = 'hidden';
   }
 });
 
@@ -151,14 +149,13 @@ const restorePositionSetting = () => {
   if (previousBodyPosition !== undefined) {
     window.removeEventListener('resize', syncWindowHeight);
 
-    document.documentElement.style.backgroundColor = previousHtmlPosition.backgroundColor;
-    document.documentElement.style.position = previousHtmlPosition.position;
-    document.documentElement.style.height = previousHtmlPosition.height;
     document.documentElement.style.boxSizing = previousHtmlPosition.boxSizing;
+    document.documentElement.style.height = previousHtmlPosition.height;
+    document.documentElement.style.overflow = previousHtmlPosition.overflow;
 
-    document.body.style.position = previousBodyPosition.position;
-    document.body.style.height = previousBodyPosition.height;
     document.body.style.boxSizing = previousBodyPosition.boxSizing;
+    document.body.style.height = previousBodyPosition.height;
+    document.body.style.overflow = previousBodyPosition.overflow;
 
     window.scrollTo(previousBodyPosition.x, previousBodyPosition.y);
 
