@@ -128,6 +128,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     document.body.style.setProperty('left', `0`);
     document.body.style.setProperty('overflow-x', 'hidden');
     document.body.style.setProperty('overflow-y', 'auto');
+    document.body.style.setProperty('box-sizing', 'border-box');
 
     document.body.scrollTo(0, scrollY);
   }
@@ -146,6 +147,7 @@ const restorePositionSetting = () => {
     document.body.style.removeProperty('left');
     document.body.style.removeProperty('overflow-x');
     document.body.style.removeProperty('overflow-y');
+    document.body.style.removeProperty('box-sizing');
 
     window.scrollTo(0, scrollY);
     
