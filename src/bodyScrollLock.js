@@ -115,9 +115,16 @@ const syncWindowHeight = () => {
   );
 }
 
+const newPreventDefault = (e) => {
+  if (e.cancelable) {
+    e.preventDefault();
+  }
+}
+
 const setPositionFixed = () => window.requestAnimationFrame(() => {
   if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
     window.addEventListener('resize', syncWindowHeight);
+    window.addEventListener('pointermove', newPreventDefault);
 
     syncWindowHeight();
     
@@ -148,6 +155,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
 const restorePositionSetting = () => {
   if (previousBodyPosition !== undefined) {
     window.removeEventListener('resize', syncWindowHeight);
+    window.removeEventListener('pointermove', newPreventDefault);
 
     document.documentElement.style.boxSizing = previousHtmlPosition.boxSizing;
     document.documentElement.style.height = previousHtmlPosition.height;
