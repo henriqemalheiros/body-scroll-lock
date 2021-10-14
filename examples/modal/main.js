@@ -6,6 +6,11 @@ const statusElement = document.querySelector('.bodyScrollLockStatus');
 const modalElement = document.querySelector('.modal');
 const scrollTargetElement = document.querySelector('.scrollTarget');
 
+window.onload = function () {
+  const versionEl = document.getElementById('version');
+  versionEl.innerText = `v${process.env.VERCEL_GIT_COMMIT_SHA || 'DEV'}`
+}
+
 disableBodyScrollButton.onclick = function() {
   console.info('disableBodyScrollButton');
 
