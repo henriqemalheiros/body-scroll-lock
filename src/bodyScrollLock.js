@@ -108,67 +108,46 @@ const restoreOverflowSetting = () => {
   }
 };
 
-const syncWindowHeight = () => {
-  document.documentElement.style.setProperty(
-    "--window-inner-height",
-    `${window.innerHeight}px`
-  );
-}
-
-const newPreventDefault = (e) => {
-  if (e.cancelable) {
-    e.preventDefault();
-  }
-}
+let hasPositionFixed = false;
+let scrollY = 0;
 
 const setPositionFixed = () => window.requestAnimationFrame(() => {
-  if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
-    window.addEventListener('resize', syncWindowHeight);
-    window.addEventListener('pointermove', newPreventDefault);
+  if (!hasPositionFixed) {
+    hasPositionFixed = true;
+    scrollY = window.scrollY;
 
-    syncWindowHeight();
-    
-    previousHtmlPosition = {
-      boxSizing: document.documentElement.style.boxSizing,
-      height: document.documentElement.style.height,
-      overflow: document.documentElement.style.overflow,
-    }
+    document.documentElement.style.setProperty('overflow', 'hidden');
+    document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
 
-    document.documentElement.style.boxSizing = 'border-box';
-    document.documentElement.style.height = 'calc(var(--window-inner-height) - 1px)';
-    document.documentElement.style.overflow = 'hidden';
+    document.body.style.setProperty('position', 'fixed');
+    document.body.style.setProperty('top', '0');
+    document.body.style.setProperty('right', '0');
+    document.body.style.setProperty('bottom', `0`);
+    document.body.style.setProperty('left', `0`);
+    document.body.style.setProperty('overflow-x', 'hidden');
+    document.body.style.setProperty('overflow-y', 'auto');
 
-    previousBodyPosition = {
-      boxSizing: document.body.style.boxSizing,
-      height: document.body.style.height,
-      overflow: document.body.style.overflow,
-      x: window.scrollX,
-      y: window.scrollY,
-    };
-
-    document.body.style.boxSizing = 'border-box';
-    document.body.style.height = 'calc(var(--window-inner-height) - 1px)';
-    document.body.style.overflow = 'hidden';
+    document.body.scrollTo(0, scrollY);
   }
 });
 
 const restorePositionSetting = () => {
-  if (previousBodyPosition !== undefined) {
-    window.removeEventListener('resize', syncWindowHeight);
-    window.removeEventListener('pointermove', newPreventDefault);
+  if (hasPositionFixed) {
+    document.documentElement.style.removeProperty('overflow');
+    document.documentElement.style.removeProperty('height');
 
-    document.documentElement.style.boxSizing = previousHtmlPosition.boxSizing;
-    document.documentElement.style.height = previousHtmlPosition.height;
-    document.documentElement.style.overflow = previousHtmlPosition.overflow;
+    document.body.style.removeProperty('position');
+    document.body.style.removeProperty('top');
+    document.body.style.removeProperty('right');
+    document.body.style.removeProperty('bottom');
+    document.body.style.removeProperty('left');
+    document.body.style.removeProperty('overflow-x');
+    document.body.style.removeProperty('overflow-y');
 
-    document.body.style.boxSizing = previousBodyPosition.boxSizing;
-    document.body.style.height = previousBodyPosition.height;
-    document.body.style.overflow = previousBodyPosition.overflow;
-
-    window.scrollTo(previousBodyPosition.x, previousBodyPosition.y);
-
-    previousHtmlPosition = undefined;
-    previousBodyPosition = undefined;
+    window.scrollTo(0, scrollY);
+    
+    hasPositionFixed = false;
+    scrollY = 0;
   }
 };
 
