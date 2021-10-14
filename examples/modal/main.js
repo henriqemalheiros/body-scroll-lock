@@ -8,7 +8,7 @@ const scrollTargetElement = document.querySelector('.scrollTarget');
 
 window.onload = function () {
   const versionEl = document.getElementById('version');
-  versionEl.innerText = 'v17'
+  versionEl.innerText = 'v18'
 }
 
 disableBodyScrollButton.onclick = function() {

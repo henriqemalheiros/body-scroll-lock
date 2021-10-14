@@ -112,12 +112,12 @@ const restoreOverflowSetting = () => {
 };
 
 let hasPositionFixed = false;
-let scrollY = 0;
 
 const setPositionFixed = () => window.requestAnimationFrame(() => {
   if (!hasPositionFixed) {
     hasPositionFixed = true;
-    scrollY = window.scrollY;
+
+    const { scrollY } = window;
 
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
@@ -136,6 +136,8 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
 
 const restorePositionSetting = () => {
   if (hasPositionFixed) {
+    const { scrollY } = document.body;
+
     document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('height');
 
@@ -150,7 +152,6 @@ const restorePositionSetting = () => {
     window.scrollTo(0, scrollY);
     
     hasPositionFixed = false;
-    scrollY = 0;
   }
 };
 
