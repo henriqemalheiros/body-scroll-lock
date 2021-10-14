@@ -117,7 +117,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     scrollY = window.scrollY;
 
     document.documentElement.style.setProperty('overflow', 'hidden');
-    document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
+    document.documentElement.style.setProperty('height', '100%');
     document.documentElement.style.setProperty('box-sizing', 'border-box');
 
     document.body.style.setProperty('position', 'fixed');
