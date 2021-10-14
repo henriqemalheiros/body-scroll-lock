@@ -108,8 +108,19 @@ const restoreOverflowSetting = () => {
   }
 };
 
+const syncWindowHeight = () => {
+  document.documentElement.style.setProperty(
+    "--window-inner-height",
+    `${window.innerHeight}px`
+  );
+}
+
 const setPositionFixed = () => window.requestAnimationFrame(() => {
   if (previousHtmlPosition === undefined && previousBodyPosition === undefined) {
+    window.addEventListener('resize', syncWindowHeight);
+
+    syncWindowHeight();
+    
     previousHtmlPosition = {
       position: document.documentElement.style.position,
       height: document.documentElement.style.height,
@@ -117,7 +128,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     }
 
     document.documentElement.style.position = 'fixed';
-    document.documentElement.style.height = `${window.innerHeight - 1}px`;
+    document.documentElement.style.height = 'calc(var(--window-inner-height) - 1px)';
     document.documentElement.style.boxSizing = 'border-box';
 
     previousBodyPosition = {
@@ -129,13 +140,15 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     };
 
     document.body.style.position = 'fixed';
-    document.body.style.height = `${window.innerHeight - 1}px`;
+    document.body.style.height = 'calc(var(--window-inner-height) - 1px)';
     document.body.style.boxSizing = 'border-box';
   }
 });
 
 const restorePositionSetting = () => {
   if (previousBodyPosition !== undefined) {
+    window.removeEventListener('resize', syncWindowHeight);
+
     document.documentElement.style.position = previousHtmlPosition.position;
     document.documentElement.style.height = previousHtmlPosition.height;
     document.documentElement.style.boxSizing = previousHtmlPosition.boxSizing;
