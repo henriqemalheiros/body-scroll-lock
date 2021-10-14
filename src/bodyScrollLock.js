@@ -25,13 +25,15 @@ if (typeof window !== 'undefined') {
   window.removeEventListener('testPassive', null, passiveTestOptions);
 }
 
-const isIosDevice = true;
-// const isIosDevice =
-//   typeof window !== 'undefined' &&
-//   window.navigator &&
-//   window.navigator.platform &&
-//   (/iP(ad|hone|od)/.test(window.navigator.platform) ||
-//     (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1));
+const isIosDevice =
+  typeof window !== 'undefined' &&
+  window.navigator &&
+  window.navigator.platform &&
+  (/iP(ad|hone|od)/.test(window.navigator.platform) ||
+    (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1));
+
+const isSafari = isIosDevice && !window.navigator.userAgent.match(/CriOS/i);
+
 type HandleScrollEvent = TouchEvent;
 
 let locks: Array<Lock> = [];
@@ -119,8 +121,6 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
 
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
-    document.documentElement.style.setProperty('box-sizing', 'border-box');
-    document.documentElement.style.setProperty('margin', '0');
 
     document.body.style.setProperty('position', 'fixed');
     document.body.style.setProperty('top', '0');
@@ -138,8 +138,6 @@ const restorePositionSetting = () => {
   if (hasPositionFixed) {
     document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('height');
-    document.documentElement.style.removeProperty('box-sizing');
-    document.documentElement.style.removeProperty('margin');
 
     document.body.style.removeProperty('position');
     document.body.style.removeProperty('top');
@@ -203,7 +201,7 @@ export const disableBodyScroll = (targetElement: any, options?: BodyScrollOption
 
   locks = [...locks, lock];
 
-  if (isIosDevice) {
+  if (isIosDevice && isSafari) {
     setPositionFixed();
   } else {
     setOverflowHidden(options);
@@ -247,7 +245,7 @@ export const clearAllBodyScrollLocks = (): void => {
     initialClientY = -1;
   }
 
-  if (isIosDevice) {
+  if (isIosDevice && isSafari) {
     restorePositionSetting();
   } else {
     restoreOverflowSetting();
@@ -277,7 +275,7 @@ export const enableBodyScroll = (targetElement: any): void => {
     }
   }
 
-  if (isIosDevice) {
+  if (isIosDevice && isSafari) {
     restorePositionSetting();
   } else {
     restoreOverflowSetting();
