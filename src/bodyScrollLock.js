@@ -120,6 +120,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('height', `${window.innerHeight}px`);
     document.documentElement.style.setProperty('box-sizing', 'border-box');
+    document.documentElement.style.setProperty('margin', '0');
 
     document.body.style.setProperty('position', 'fixed');
     document.body.style.setProperty('top', '0');
@@ -129,6 +130,7 @@ const setPositionFixed = () => window.requestAnimationFrame(() => {
     document.body.style.setProperty('overflow-x', 'hidden');
     document.body.style.setProperty('overflow-y', 'auto');
     document.body.style.setProperty('box-sizing', 'border-box');
+    document.body.style.setProperty('margin', '0');
 
     document.body.scrollTo(0, scrollY);
   }
@@ -139,6 +141,7 @@ const restorePositionSetting = () => {
     document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('height');
     document.documentElement.style.removeProperty('box-sizing');
+    document.documentElement.style.removeProperty('margin');
 
     document.body.style.removeProperty('position');
     document.body.style.removeProperty('top');
@@ -148,6 +151,7 @@ const restorePositionSetting = () => {
     document.body.style.removeProperty('overflow-x');
     document.body.style.removeProperty('overflow-y');
     document.body.style.removeProperty('box-sizing');
+    document.body.style.removeProperty('margin');
 
     window.scrollTo(0, scrollY);
     
